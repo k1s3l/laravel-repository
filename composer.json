@@ -20,6 +20,7 @@
         "phpunit/phpunit": "^9.5"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Kisel\\Laravel\\Repository\\": "src"
