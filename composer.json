@@ -25,5 +25,12 @@
         "psr-4": {
             "Kisel\\Laravel\\Repository\\": "src"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers":[
+                "Kisel\\Laravel\\Repository\\Providers\\RepositoryServiceProvider"
+            ]
+        }
     }
 }
