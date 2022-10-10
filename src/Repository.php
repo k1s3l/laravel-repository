@@ -18,9 +18,8 @@ class Repository
         foreach ($this->strategies as $strategy => $invokable) {
             if (($result = $invokable($id)) !== null) {
                 if (is_a($strategy, Eventable::class, true)) {
-                    $events = collect($invokable->events())->map(static fn ($event) => new $event($result));
-
-                    event(...$events);
+                    collect($invokable->events())
+                        ->each(static fn ($event) => event(new $event($result)));
                 }
 
                 return $result;
