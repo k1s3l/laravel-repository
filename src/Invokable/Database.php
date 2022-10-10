@@ -41,6 +41,10 @@ class Database implements InvokableInterface, Eventable
         return clone $this->builder;
     }
 
+    /**
+     * Get events
+     * @return array<class-string>
+     */
     public function events(): array
     {
         return [

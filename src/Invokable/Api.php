@@ -45,6 +45,10 @@ class Api implements InvokableInterface, Eventable
         return $this->client->get($url)->json();
     }
 
+    /**
+     * Get events
+     * @return array<class-string>
+     */
     public function events(): array
     {
         return [

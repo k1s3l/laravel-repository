@@ -34,7 +34,11 @@ class Cache implements InvokableInterface
         return CacheManager::store($this->store)->get((string) $id);
     }
 
-    public function getStore()
+    /**
+     * Get cache store
+     * @return string
+     */
+    public function getStore(): string
     {
         return $this->store;
     }

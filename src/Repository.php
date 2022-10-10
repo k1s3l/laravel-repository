@@ -6,6 +6,9 @@ use Kisel\Laravel\Repository\Interfaces\Eventable;
 
 class Repository
 {
+    /**
+     * @var array
+     */
     protected array $strategies = [];
 
     public function __construct(array $strategies = [])
@@ -13,6 +16,11 @@ class Repository
         $this->strategies = $strategies;
     }
 
+    /**
+     * Search entity by strategies
+     * @param int $id
+     * @return mixed
+     */
     public function search(int $id): mixed
     {
         foreach ($this->strategies as $strategy => $invokable) {
@@ -29,6 +37,10 @@ class Repository
         return [];
     }
 
+    /**
+     * Get strategies from Repository instance
+     * @return array
+     */
     public function getStrategies(): array
     {
         return $this->strategies;
