@@ -30,6 +30,6 @@ class SaveInCache
         /** @var Cache $strategy */
         $strategy = Arr::get(Repository::getStrategies(), Cache::class);
 
-        CacheManager::store($strategy->getStore())->add($event->result->id, $event->result);
+        CacheManager::store($strategy->getStore())->add($event->result['id'], $event->result);
     }
 }

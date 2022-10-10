@@ -3,9 +3,11 @@
 namespace Kisel\Laravel\Repository\Invokable;
 
 use Illuminate\Database\Eloquent\Builder;
+use Kisel\Laravel\Repository\Events\EntityInDatabase;
+use Kisel\Laravel\Repository\Interfaces\Eventable;
 use Kisel\Laravel\Repository\Interfaces\InvokableInterface;
 
-class Database implements InvokableInterface
+class Database implements InvokableInterface, Eventable
 {
     /**
      * @var Builder
@@ -37,5 +39,12 @@ class Database implements InvokableInterface
     public function getBuilder(): Builder
     {
         return clone $this->builder;
+    }
+
+    public function events(): array
+    {
+        return [
+            EntityInDatabase::class,
+        ];
     }
 }

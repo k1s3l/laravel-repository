@@ -4,10 +4,12 @@ namespace Kisel\Laravel\Repository\Invokable;
 
 use Illuminate\Http\Client\Factory;
 use Illuminate\Support\Facades\Http;
+use Kisel\Laravel\Repository\Events\EntityApiFound;
 use Kisel\Laravel\Repository\Exceptions\NotFilledConfigException;
+use Kisel\Laravel\Repository\Interfaces\Eventable;
 use Kisel\Laravel\Repository\Interfaces\InvokableInterface;
 
-class Api implements InvokableInterface
+class Api implements InvokableInterface, Eventable
 {
     protected Factory $client;
 
@@ -41,5 +43,12 @@ class Api implements InvokableInterface
         }
 
         return $this->client->get($url)->json();
+    }
+
+    public function events(): array
+    {
+        return [
+            EntityApiFound::class,
+        ];
     }
 }

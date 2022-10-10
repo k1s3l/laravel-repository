@@ -5,7 +5,7 @@ namespace Kisel\Laravel\Repository\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
-use Kisel\Laravel\Repository\Events\EntitySaved;
+use Kisel\Laravel\Repository\Events\EntityInDatabase;
 use Kisel\Laravel\Repository\Facades\Repository;
 use Kisel\Laravel\Repository\Invokable\Database;
 
@@ -32,10 +32,10 @@ class SaveInDatabase
         /** @var Database $strategy */
         $strategy = Arr::get(Repository::getStrategies(), Database::class);
 
-        $attributes = Arr::except($event->result, ['id']);
+        $strategy->getBuilder()->insert($event->result);
 
-        $result = $strategy->getBuilder()->create($attributes);
+        $result = $strategy->getBuilder()->firstWhere($event->result);
 
-        event(new EntitySaved($result));
+        event(new EntityInDatabase($result));
     }
 }

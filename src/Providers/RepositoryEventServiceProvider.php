@@ -3,8 +3,8 @@
 namespace Kisel\Laravel\Repository\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Kisel\Laravel\Repository\Events\EntityFound;
-use Kisel\Laravel\Repository\Events\EntitySaved;
+use Kisel\Laravel\Repository\Events\EntityApiFound;
+use Kisel\Laravel\Repository\Events\EntityInDatabase;
 use Kisel\Laravel\Repository\Listeners\SaveInCache;
 use Kisel\Laravel\Repository\Listeners\SaveInDatabase;
 
@@ -16,10 +16,10 @@ class RepositoryEventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        EntityFound::class => [
+        EntityApiFound::class => [
             SaveInDatabase::class,
         ],
-        EntitySaved::class => [
+        EntityInDatabase::class => [
             SaveInCache::class,
         ],
     ];

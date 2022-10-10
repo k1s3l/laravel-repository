@@ -2,7 +2,7 @@
 
 namespace Kisel\Laravel\Repository;
 
-use Kisel\Laravel\Repository\Events\EntityFound;
+use Kisel\Laravel\Repository\Interfaces\Eventable;
 
 class Repository
 {
@@ -15,9 +15,13 @@ class Repository
 
     public function search(int $id): mixed
     {
-        foreach ($this->strategies as $invokable) {
+        foreach ($this->strategies as $strategy => $invokable) {
             if (($result = $invokable($id)) !== null) {
-                event(new EntityFound($result));
+                if (is_a($strategy, Eventable::class, true)) {
+                    $events = collect($invokable->events())->map(static fn ($event) => new $event($result));
+
+                    event(...$events);
+                }
 
                 return $result;
             }
