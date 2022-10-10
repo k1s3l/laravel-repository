@@ -15,8 +15,12 @@ class Cache implements InvokableInterface
     /**
      * @param string $store
      */
-    public function __construct(string $store = 'redis')
+    public function __construct(string $store = null)
     {
+        if ($store === null) {
+            $store = config('cache.default');
+        }
+
         $this->store = $store;
     }
 
@@ -28,5 +32,10 @@ class Cache implements InvokableInterface
     public function __invoke(int $id): mixed
     {
         return CacheManager::store($this->store)->get((string) $id);
+    }
+
+    public function getStore()
+    {
+        return $this->store;
     }
 }

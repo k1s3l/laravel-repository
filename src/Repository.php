@@ -15,9 +15,9 @@ class Repository
 
     public function search(int $id): mixed
     {
-        foreach ($this->strategies as $strategy => $invokable) {
+        foreach ($this->strategies as $invokable) {
             if (($result = $invokable($id)) !== null) {
-                event(new EntityFound($strategy, $result));
+                event(new EntityFound($result));
 
                 return $result;
             }

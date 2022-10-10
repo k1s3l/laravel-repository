@@ -24,10 +24,18 @@ class Database implements InvokableInterface
     /**
      * @param int $id
      * @return mixed
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function __invoke(int $id): mixed
     {
-        return $this->builder->whereId($id)->first();
+        return $this->getBuilder()->whereId($id)->first();
+    }
+
+    /**
+     * Immutable builder instance getting
+     * @return Builder
+     */
+    public function getBuilder(): Builder
+    {
+        return clone $this->builder;
     }
 }

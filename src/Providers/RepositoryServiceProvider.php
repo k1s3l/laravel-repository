@@ -20,9 +20,9 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->singleton('repository', static function ($app) {
             $strategies = [
-                'cache' => new Cache(),
-                'database' => new Database(User::query()),
-                'api' => new Api(),
+                Cache::class => new Cache(),
+                Database::class => new Database(User::query()),
+                Api::class => new Api(),
             ];
 
             return new Repository($strategies);
@@ -38,6 +38,6 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/repository.php' => config_path('repository.php')
-        ]);
+        ], 'config');
     }
 }

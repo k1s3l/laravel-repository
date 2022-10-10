@@ -2,13 +2,14 @@
 
 namespace Kisel\Laravel\Repository\Invokable;
 
+use Illuminate\Http\Client\Factory;
 use Illuminate\Support\Facades\Http;
 use Kisel\Laravel\Repository\Exceptions\NotFilledConfigException;
 use Kisel\Laravel\Repository\Interfaces\InvokableInterface;
 
 class Api implements InvokableInterface
 {
-    protected $client;
+    protected Factory $client;
 
     protected $url;
 
@@ -24,16 +25,21 @@ class Api implements InvokableInterface
 
         $this->mock = $mockUrl;
 
-        $this->client = new Http();
+        $this->client = app(Factory::class);
     }
 
     /**
      * @param int $id
      * @return mixed
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function __invoke(int $id): mixed
     {
-        return $this->client->get($this->url ?: $this->mock)->json();
+        if ($this->url !== null) {
+            $url = $this->url;
+        } else {
+            $url = str_replace(':id', $id, $this->mock);
+        }
+
+        return $this->client->get($url)->json();
     }
 }
